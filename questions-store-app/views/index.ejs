@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <style>
+        body{
+            background-color: <%= bg_color %> !important;
+            color: <%= text_color %> !important;
+            font-family: 'Poppins', sans-serif;
+        }
+        .card{
+          border-radius: 20px;
+          background-color: #fff;
+          box-shadow: 0 0 100px 0 rgb(0 0 0 / 12%);
+          font-family: Poppins,sans-serif;
+          width: 100%;
+          padding: 30px;
+        }
+        .name{
+          font-size:25px;
+          line-height: 25px;
+          font-weight: 400;
+        }
+        .question{
+          font-size:20px;
+          line-height: 20px;
+          font-weight: 300;
+        }
+
+        #loader{
+          position: absolute;
+          z-index: 100000;
+          width: 100%;
+          height: 100%;
+          top:0;
+          
+          display: none;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          background-color: <%= bg_color %> !important;
+        }
+        .no-scroll{
+          height: 100vh;
+          overflow: hidden;
+        }
+        .k8s-spinner {
+          animation: rotate 2s linear infinite;
+        }
+        @keyframes rotate {
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+    </style>
+    <meta name="viewport" content="width=device-width" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <title>K8S wokshop questions</title>
+  </head>
+  <body>
+    <div class="" id=loader>
+      <img src="k8s.logo.png" class="k8s-spinner" alt="k8slogo" style="width: 250px">
+    </div>
+    <div class="container-fluid w-50" id="app">
+      <header class="d-flex justify-content-center mt-5">
+        <h2>K8S workshop questions 🚀 </h2>
+      </header>
+
+    <div class="card mt-4">
+
+      <div class="d-flex justify-content-center">
+        <div class="pi-card w-100 ">
+          <form id="form">
+            <div class="row my-4">
+              <label class="col-3" for="">
+                Name: 
+              </label>
+              <input class="col-9 form-control" required placeholder="name" id="name"/>
+            </div>
+            <div class="row mb-4">
+              <label class="col-3" for="">
+                Question: 
+              </label>
+              <textarea class="col-9 form-control" required id="question" rows="3" value="" placeholder="question"></textarea>
+            </div>
+            <div class="d-flex justify-content-end">
+              <input class="btn btn-primary" type="submit" value="Submit"/>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+
+    </div>
+    <div class="" id="questions-wrapper">
+      <% for(var i=0; i < questions.length; i++) { %>
+        <div class="card mb-4">
+  
+          <div class="d-flex justify-content-center">
+            <div class="pi-card w-100 ">
+              <div class="form px-5">
+                <div class="row mt-4">
+                  <p class="name">
+                    <%= questions[i].name %>
+                  </p>
+                </div>
+                <div class="row">
+                  <p class="question">
+                    <%= questions[i].body %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+     <% } %>
+    </div>
+    </div>
+  </body>
+  <script>
+
+    function displayLoader(){
+      const loader = document.getElementById('loader')
+      document.body.classList.add('no-scroll');
+      loader.style.display = 'flex';
+    }
+
+    function hideLoader(){
+      const loader = document.getElementById('loader')
+      document.body.classList.remove('no-scroll');
+      loader.style.display = 'none';
+    }
+    function prepareItem (item){
+      const html = `
+      <div class="card mb-4">
+
+        <div class="d-flex justify-content-center">
+          <div class="pi-card w-100 ">
+            <div class="form px-5">
+              <div class="row mt-4">
+                <p class="name">
+                  ${item.name}
+                </p>
+              </div>
+              <div class="row">
+                <p class="question">
+                  ${item.body}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      `;
+      return html;
+    }
+    function addQuestion(e){
+      //TODO validation
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const body = document.getElementById('question').value;
+      const question =  {
+        name: name,
+        body: body
+      }
+      displayLoader();
+      const questionHtml = prepareItem(question);
+      axios.post('/add-question', question)
+        .then(response => {
+          hideLoader();
+          // here we should append the question from the db!
+          document.getElementById('name').value = '';
+          document.getElementById('question').value = '';
+          document.getElementById('questions-wrapper')
+          .innerHTML = questionHtml + document.getElementById('questions-wrapper')
+          .innerHTML;
+        }).catch(err => {
+          hideLoader();
+          alert('ERROR OCCURE OPEN CONSOLE TO DEBUG')
+          console.error('Err');
+        })
+      return false;
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        document.getElementById('form').addEventListener('submit', addQuestion, false)
+    });
+  </script>
+</html>
