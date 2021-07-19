@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: questions-store-config
+data:
+  BG_COLOR: '#f7f8ff'
+  TEXT_COLOR: 'black'

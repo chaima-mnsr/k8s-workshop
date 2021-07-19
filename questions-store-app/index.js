@@ -5,7 +5,7 @@ const app = express();
 
 //  db dependencies
 const mongoose = require('mongoose');
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.vf2w0.mongodb.net/k8s-db`, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@questions-store.ma1bp.mongodb.net/${process.env.DB_NAME}`, { useNewUrlParser: true, useUnifiedTopology: true });
 const QuestionSchema = new mongoose.Schema({ name: String, body: String }, { timestamps: true })
 const Question = mongoose.model('questions', QuestionSchema);
 
