@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: questions-store-config
 data:
-  BG_COLOR: '#f7f8ff'
-  TEXT_COLOR: 'black'
+  BG_COLOR: 'Ghost White' # let's use different values for each participant to observe the difference later
+  TEXT_COLOR: 'black' # let's use different values for each participant to observe the difference later

@@ -9,10 +9,6 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
 const QuestionSchema = new mongoose.Schema({ name: String, body: String }, { timestamps: true })
 const Question = mongoose.model('questions', QuestionSchema);
 
-// this line will load all env variables from .env file you can remove it in production
-if (!process.env.production) {
-    require('dotenv').config();
-}
 app.use(express.static("views"));
 app.use(express.json());
 // set EJS as the view engine

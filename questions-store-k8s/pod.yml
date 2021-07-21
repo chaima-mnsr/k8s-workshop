@@ -8,11 +8,7 @@ spec:
   containers:
   - image: chaimamnsr/questions-store:latest
     name: questions-store
+    imagePullPolicy: Always
     ports:
     - name: http
       containerPort: 8080
-    envFrom:
-    - configMapRef:
-        name: questions-store-config
-    - secretRef:
-        name: questions-store-secret
