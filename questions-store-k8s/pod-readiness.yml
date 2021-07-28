@@ -9,17 +9,10 @@ spec:
   - image: chaimamnsr/questions-store:latest
     name: questions-store
     imagePullPolicy: Always
+    ports:
+    - name: http
+      containerPort: 8080
     readinessProbe:
-      failureThreshold: 3
       httpGet:
         path: /
-        port: http
-      initialDelaySeconds: 5
-      periodSeconds: 3
-    livenessProbe:
-      failureThreshold: 3
-      httpGet:
-        path: /
-        port: http
-      initialDelaySeconds: 5
-      periodSeconds: 3
+        port: 8080

@@ -24,10 +24,6 @@ kubectl config get-contexts
 # Check the number of nodes that we have in this cluster
 kubectl get nodes
 
-# check that k8s context is pointing to the new kind cluster
-kubectl config get-contexts
-kubectl config use-context kind-k8s-workshop
-
 # Create nginx-ingress controller
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 

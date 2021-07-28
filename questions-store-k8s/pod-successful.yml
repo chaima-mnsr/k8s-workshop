@@ -13,19 +13,9 @@ spec:
     - name: http
       containerPort: 8080
     readinessProbe:
-      failureThreshold: 3
       httpGet:
         path: /
         port: http
-      initialDelaySeconds: 5
-      periodSeconds: 3
-    livenessProbe:
-      failureThreshold: 3
-      httpGet:
-        path: /
-        port: http
-      initialDelaySeconds: 5
-      periodSeconds: 3
     envFrom:
     - configMapRef:
         name: questions-store-config
