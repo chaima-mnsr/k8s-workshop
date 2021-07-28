@@ -12,14 +12,8 @@ kubectl config get-contexts
 # Check the number of nodes that we have in this cluster
 kubectl get nodes
 
-# Check the number of node created
-docker ps
-
 # create a second k8s cluster with 2 nodes and customized name
 kind create cluster --name=k8s-workshop --config cluster/cluster-config.yml
-
-# Optional: in case the 80 port is used run
-service httpd start
 
 # check that the kind cluster is created
 kind get clusters
@@ -29,9 +23,6 @@ kubectl config get-contexts
 
 # Check the number of nodes that we have in this cluster
 kubectl get nodes
-
-# Check the number of node created
-docker ps
 
 # check that k8s context is pointing to the new kind cluster
 kubectl config get-contexts
@@ -44,5 +35,4 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 kind delete cluster --name=kind -q
 
 # Check it is deleted
-docker ps
 kubectl config get-contexts
